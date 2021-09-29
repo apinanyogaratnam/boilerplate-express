@@ -1,10 +1,13 @@
 var express = require('express');
 var app = express();
+var bodyParser = require('body-parser');
 process.env.MESSAGE_STYLE = 'uppercase';
 
 // app.get("/", function(req, res) {
 //     res.send("Hello Express");
 // });
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.use("/public", express.static(__dirname + "/public"));
 app.use(function(req, res, next) {
@@ -40,6 +43,10 @@ app.get("/:word/echo", function(req, res) {
 
 app.get("/name", function(req, res) {
     res.json({"name": req.query.first + " " + req.query.last});
+});
+
+app.post("/name", function(req, res) {
+    res.json({"name": req.body.first + " " + req.body.last});
 });
 
  module.exports = app;
